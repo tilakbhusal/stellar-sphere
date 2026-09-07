@@ -1,0 +1,66 @@
+---
+import { SELF, type Publication } from "../data/publications";
+
+interface Props {
+  item: Publication;
+  index: number;
+}
+const { item, index } = Astro.props;
+---
+
+<li class="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-x-2 py-5">
+  <span aria-hidden="true" class="pt-0.5 text-sm font-semibold tnum text-forest-soft">
+    {index}.
+  </span>
+
+  <div class="max-w-[72ch]">
+    <p class="leading-relaxed">
+      {
+        item.authors.map((a, i) => (
+          <>
+            {a === SELF ? <strong class="font-bold text-emerald-deep">{a}</strong> : <span>{a}</span>}
+            {i < item.authors.length - 2 ? ", " : i === item.authors.length - 2 ? ", & " : ""}
+          </>
+        ))
+      }
+      <span class="tnum"> ({item.year}). </span>
+      <span class="font-semibold">{item.title}.</span>
+      <span class="italic text-forest-soft"> {item.venue}.</span>
+    </p>
+
+    {
+      (item.doi || item.url || item.pdf || item.status) && (
+        <p class="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
+          {item.url && (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 font-medium text-emerald-deep link-underline"
+            >
+              <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0" fill="currentColor" aria-hidden="true">
+                <path d="M10.6 13.4a1 1 0 0 1 0-1.4l3-3a3 3 0 1 0-4.2-4.2L7.8 6.3a1 1 0 0 0 1.4 1.4l1.6-1.5a1 1 0 1 1 1.4 1.4l-3 3a1 1 0 0 1-1.4 0Zm2.8-2.8a1 1 0 0 1 1.4 0 1 1 0 0 1 0 1.4l-3 3a3 3 0 1 0 4.2 4.2l1.6-1.5a1 1 0 0 0-1.4-1.4l-1.6 1.5a1 1 0 1 1-1.4-1.4l3-3a1 1 0 0 1 0-1.4Z" />
+              </svg>
+              {item.doi ? `doi:${item.doi}` : "View publication"}
+            </a>
+          )}
+          {item.pdf && (
+            <a
+              href={item.pdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium link-underline"
+            >
+              PDF
+            </a>
+          )}
+          {item.status && (
+            <span class="rounded border border-line-strong px-2 py-0.5 text-xs font-semibold">
+              {item.status}
+            </span>
+          )}
+        </p>
+      )
+    }
+  </div>
+</li>

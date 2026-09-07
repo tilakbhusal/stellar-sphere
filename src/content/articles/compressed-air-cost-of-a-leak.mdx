@@ -1,0 +1,50 @@
+---
+title: "What a 3 mm compressed air leak actually costs"
+description: "A worked example: converting an audible leak into annual kWh, dollars, and the compressor horsepower it quietly reserves."
+date: 2026-01-27
+tags: ["Compressed air", "Worked example"]
+readingTime: 5
+draft: false
+---
+
+import EnergyChart from "../../components/charts/EnergyChart.jsx";
+
+Compressed air is the most expensive utility in most plants and the one nobody meters.
+The arithmetic that turns a hiss into a number is short enough to do on a clipboard,
+and it is usually enough to justify a leak survey on its own.
+
+## The chain of conversions
+
+Leak orifice → free air delivered → compressor specific power → annual kWh → dollars.
+Each step has a defensible source, and each one is where a savings estimate gets
+challenged.
+
+<EnergyChart
+  client:visible
+  type="bar"
+  xKey="size"
+  unit="kWh/yr"
+  yLabel="Annual energy (kWh)"
+  data={[
+    { size: "1 mm", annual: 1400 },
+    { size: "2 mm", annual: 5600 },
+    { size: "3 mm", annual: 12600 },
+    { size: "5 mm", annual: 35000 },
+    { size: "8 mm", annual: 89000 },
+  ]}
+  series={[{ key: "annual", name: "Annual energy" }]}
+/>
+
+Leak flow scales with the square of the orifice diameter, which is why a survey that
+only chases the loud ones misses most of the money.
+
+## What to do with the number
+
+Rank leaks by annual cost, not by how easy they are to hear. Then check whether fixing
+them lets the compressor unload or shut off — if the system stays in modulation, the
+kWh savings will land well under the calculation.
+
+> A leak repair program only pays if the control strategy can convert reduced demand
+> into reduced power.
+
+Write the assumption into the report. It is the first thing a utility reviewer will ask about.

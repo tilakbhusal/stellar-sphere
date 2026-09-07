@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  id?: string;
+  /** Short line of orienting context, shown next to the heading on wide screens. */
+  aside?: string;
+  as?: "h1" | "h2";
+  class?: string;
+}
+const { title, id, aside, as: Tag = "h2", class: className = "" } = Astro.props;
+---
+
+<div class={`axis-rule pt-5 ${className}`}>
+  <div class="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
+    <Tag id={id} class="text-h2 font-bold text-balance">{title}</Tag>
+    {aside && <p class="max-w-sm text-sm text-forest-soft sm:text-right">{aside}</p>}
+  </div>
+</div>

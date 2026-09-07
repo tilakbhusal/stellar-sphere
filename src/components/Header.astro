@@ -1,0 +1,125 @@
+---
+import Logo from "./Logo.astro";
+import { nav } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => {
+  const base = href.split("#")[0].replace(/\/$/, "") || "/";
+  if (base === "/") return path === "/";
+  return path === base || path.startsWith(base + "/");
+};
+---
+
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:bg-mist focus:px-3 focus:py-2 focus:text-sm focus:font-semibold"
+>
+  Skip to content
+</a>
+
+<header
+  id="site-header"
+  class="sticky top-0 z-40 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
+  data-scrolled="false"
+>
+  <div class="mx-auto flex h-[var(--header-h)] max-w-6xl items-center gap-4 px-5 sm:px-8">
+    <a
+      href="/"
+      class="-m-1 rounded p-1"
+      aria-label="Tilak Bhusal — home"
+    >
+      <Logo />
+    </a>
+
+    <nav aria-label="Main" class="ml-auto hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? "page" : undefined}
+                class="relative block rounded px-3 py-2 text-[0.925rem] font-medium text-forest transition-colors hover:text-emerald-deep aria-[current=page]:text-emerald-deep"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="nav-toggle"
+      class="ml-auto rounded border border-line-strong px-3 py-2 text-sm font-medium md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      Menu
+    </button>
+  </div>
+
+  <nav
+    id="mobile-nav"
+    aria-label="Main (mobile)"
+    hidden
+    class="border-t border-line bg-mist/95 backdrop-blur md:hidden"
+  >
+    <ul class="mx-auto max-w-6xl px-5 py-2 sm:px-8">
+      {
+        nav.map((item) => (
+          <li class="border-b border-line last:border-0">
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              class="block py-3 text-base font-medium aria-[current=page]:text-emerald-deep"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  #site-header[data-scrolled="true"] {
+    background-color: rgb(168 213 186 / 0.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: var(--color-line);
+  }
+
+  /* Active-page marker: a short tick under the label, matching the axis rule. */
+  nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.4rem;
+    height: 2px;
+    background-color: var(--color-emerald-deep);
+  }
+  #mobile-nav a[aria-current="page"]::after {
+    display: none;
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  const onScroll = () => {
+    header?.setAttribute("data-scrolled", window.scrollY > 8 ? "true" : "false");
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const toggle = document.getElementById("nav-toggle");
+  const mobileNav = document.getElementById("mobile-nav");
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    toggle.textContent = open ? "Menu" : "Close";
+    if (mobileNav) mobileNav.hidden = open;
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+interface Props {
+  /** `full` shows the wordmark; `mark` is the bar-chart glyph only. */
+  variant?: "full" | "mark";
+  class?: string;
+}
+const { variant = "full", class: className = "" } = Astro.props;
+const uid = "lg" + Math.random().toString(36).slice(2, 8);
+---
+
+<span class={`flex items-center gap-2.5 ${className}`}>
+  <svg
+    viewBox="0 0 40 50"
+    class="h-9 w-auto shrink-0 sm:h-10"
+    role="img"
+    aria-label="Tilak Bhusal"
+    fill="none"
+  >
+    <defs>
+      <linearGradient id={`${uid}-bar`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#34D399"></stop>
+        <stop offset="100%" stop-color="#0E6B45"></stop>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="30" width="8" height="20" rx="4" fill="#BFE9D2"></rect>
+    <rect x="12" y="22" width="8" height="28" rx="4" fill="#34D399"></rect>
+    <rect x="24" y="14" width="10" height="36" rx="5" fill={`url(#${uid}-bar)`}></rect>
+    <circle cx="29" cy="5" r="4.6" fill="#0E7C4E"></circle>
+  </svg>
+
+  {
+    variant === "full" && (
+      <span class="hidden leading-none sm:block">
+        <span class="block text-[1.02rem] font-extrabold tracking-[-0.01em] whitespace-nowrap">
+          <span class="text-emerald-deep">TILAK</span>
+          <span class="text-forest/70"> BHUSAL</span>
+        </span>
+        <span class="mt-[3px] block text-[0.5rem] font-semibold tracking-[0.22em] text-emerald-deep/85">
+          ENERGY &amp; SUSTAINABILITY
+        </span>
+      </span>
+    )
+  }
+</span>

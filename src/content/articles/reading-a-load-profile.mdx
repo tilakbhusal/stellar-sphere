@@ -1,0 +1,63 @@
+---
+title: "Reading a load profile before you read the nameplate"
+description: "Interval data tells you how a facility actually runs. Nameplate data tells you how somebody once expected it to run. Start with the first one."
+date: 2026-02-18
+tags: ["Energy audit", "Interval data", "M&V"]
+readingTime: 6
+draft: false
+---
+
+import EnergyChart from "../../components/charts/EnergyChart.jsx";
+
+Every audit starts the same way: a facility manager hands over a stack of nameplate
+data and a floor plan, and the temptation is to start sizing things immediately. That
+is backwards. The nameplate says what a machine can draw. The meter says what the
+building did draw, at 15-minute resolution, for the last twelve months.
+
+## Overnight load is the cheapest thing you will ever find
+
+Plot demand against hour of day and look at the floor of the curve — the level the
+facility never drops below. In a single-shift plant that floor should be small: security
+lighting, refrigeration, a couple of servers. When it sits at 40% of peak, something is
+running that nobody asked to run.
+
+<EnergyChart
+  client:visible
+  type="line"
+  xKey="hour"
+  unit="kW"
+  yLabel="Demand (kW)"
+  data={[
+    { hour: "00:00", baseline: 210, retrofit: 105 },
+    { hour: "03:00", baseline: 198, retrofit: 96 },
+    { hour: "06:00", baseline: 300, retrofit: 225 },
+    { hour: "09:00", baseline: 530, retrofit: 452 },
+    { hour: "12:00", baseline: 545, retrofit: 462 },
+    { hour: "15:00", baseline: 570, retrofit: 480 },
+    { hour: "18:00", baseline: 300, retrofit: 225 },
+    { hour: "21:00", baseline: 235, retrofit: 145 },
+  ]}
+  series={[
+    { key: "baseline", name: "Baseline", dashed: true, color: "#4D7052" },
+    { key: "retrofit", name: "After measures", color: "#0E7C4E" },
+  ]}
+/>
+
+The gap between those two curves is not a projection. It is what the meter recorded
+after the compressed air leaks were fixed and the air handlers were put on a schedule.
+
+## Three things the curve gives you for free
+
+1. **Operating hours that are real.** Not the hours in the production schedule — the
+   hours the equipment was actually energized.
+2. **A weather-dependent fraction.** Regress daily consumption against degree days and
+   the slope tells you how much of the load is HVAC and how much is process.
+3. **A baseline you can defend.** Measurement and Verification is much easier when the
+   pre-period was characterized properly the first time.
+
+## Where it stops helping
+
+Whole-building interval data cannot disaggregate. If two measures affect the same
+end use, you will not separate them from the utility meter alone, and you should not
+pretend otherwise in the savings calculation. That is what submetering and short-term
+logging are for.

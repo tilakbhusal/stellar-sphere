@@ -1,0 +1,74 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const posts = (await getCollection("articles", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Base
+  title="Articles"
+  description="Technical writing on industrial energy efficiency, measurement and verification, and energy data analysis."
+>
+  <div class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
+    <h1 class="text-display font-extrabold">Articles</h1>
+    <p class="mt-5 max-w-[62ch] text-lg leading-relaxed text-forest/90">
+      Working notes on audit method, measurement and verification, and what energy data does and
+      doesn't tell you.
+    </p>
+  </div>
+
+  <section class="mx-auto mt-14 max-w-6xl px-5 sm:px-8">
+    {
+      posts.length === 0 ? (
+        <div class="panel max-w-[60ch] px-6 py-8">
+          <p class="text-h3 font-semibold">No articles published yet.</p>
+          <p class="mt-2 leading-relaxed text-forest-soft">
+            Add an <code class="rounded bg-mist-warm px-1.5 py-0.5 text-sm">.mdx</code> file to
+            <code class="rounded bg-mist-warm px-1.5 py-0.5 text-sm">src/content/articles/</code>
+            and it appears here.
+          </p>
+        </div>
+      ) : (
+        <ul class="grid gap-4 md:grid-cols-2">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={`/articles/${post.id}/`}
+                class="panel flex h-full flex-col px-6 py-6 transition-colors hover:border-emerald-deep/60"
+              >
+                <div class="flex items-baseline justify-between gap-4">
+                  <time datetime={post.data.date.toISOString()} class="text-sm text-forest-soft">
+                    {fmt(post.data.date)}
+                  </time>
+                  {post.data.readingTime && (
+                    <span class="text-sm tnum text-forest-soft">
+                      {post.data.readingTime} min read
+                    </span>
+                  )}
+                </div>
+
+                <h2 class="mt-2.5 text-h3 font-bold text-balance">{post.data.title}</h2>
+                <p class="mt-2.5 leading-relaxed text-forest/90">{post.data.description}</p>
+
+                {post.data.tags.length > 0 && (
+                  <ul class="mt-auto flex flex-wrap gap-1.5 pt-5">
+                    {post.data.tags.map((t) => (
+                      <li class="rounded border border-line px-2 py-0.5 text-xs font-medium text-forest-soft">
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</Base>

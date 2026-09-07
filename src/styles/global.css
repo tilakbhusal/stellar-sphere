@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens
+   sage    canvas          #A8D5BA
+   forest  all typography  #2F5233
+   emerald interactive     #34D399
+   mist    reading panels  lifted off the sage so long text stays legible
+   deep    footer / inverse blocks
+   ------------------------------------------------------------------ */
+@theme {
+  --color-sage: #a8d5ba;
+  --color-sage-deep: #93c9a9;
+  --color-forest: #2f5233;
+  --color-forest-soft: #4d7052;
+  --color-emerald: #34d399;
+  --color-emerald-deep: #0e7c4e;
+  --color-mist: #edf6f0;
+  --color-mist-warm: #f6fbf8;
+  --color-deep: #1b3220;
+  --color-line: rgb(47 82 51 / 0.16);
+  --color-line-strong: rgb(47 82 51 / 0.32);
+
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+
+  --text-display: clamp(2.4rem, 1.2rem + 4.4vw, 4.25rem);
+  --text-display--line-height: 1.03;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-h2: clamp(1.6rem, 1.1rem + 1.6vw, 2.25rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.022em;
+
+  --text-h3: clamp(1.125rem, 1rem + 0.5vw, 1.3rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.012em;
+
+  --ease-out-soft: cubic-bezier(0.22, 0.7, 0.28, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    /* Height of the sticky header, used for scroll-margin on anchors. */
+    --header-h: 4.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  html {
+    background-color: var(--color-sage);
+  }
+
+  body {
+    background-color: var(--color-sage);
+    color: var(--color-forest);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anchor targets clear the sticky header. */
+  :where(section, article, h2)[id] {
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  ::selection {
+    background-color: var(--color-emerald);
+    color: var(--color-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-emerald-deep);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Numbers in this site are data — keep them aligned. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Section rule + emerald tick — the recurring structural device.
+     Reads like an axis mark rather than a decorative eyebrow. */
+  .axis-rule {
+    position: relative;
+    border-top: 1px solid var(--color-line-strong);
+  }
+  .axis-rule::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 2.75rem;
+    height: 3px;
+    background-color: var(--color-emerald-deep);
+  }
+
+  .panel {
+    background-color: var(--color-mist);
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+  }
+
+  .link-underline {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: var(--color-line-strong);
+    transition: text-decoration-color 160ms var(--ease-out-soft);
+  }
+  .link-underline:hover {
+    text-decoration-color: var(--color-emerald-deep);
+  }
+
+  /* MDX article body */
+  .prose-energy {
+    max-width: 68ch;
+  }
+  .prose-energy > * + * {
+    margin-top: 1.15em;
+  }
+  .prose-energy h2 {
+    font-size: var(--text-h2);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin-top: 2.4em;
+  }
+  .prose-energy h3 {
+    font-size: 1.15rem;
+    font-weight: 650;
+    margin-top: 1.9em;
+  }
+  .prose-energy p,
+  .prose-energy li {
+    line-height: 1.7;
+  }
+  .prose-energy ul,
+  .prose-energy ol {
+    padding-left: 1.35rem;
+  }
+  .prose-energy ul { list-style: disc; }
+  .prose-energy ol { list-style: decimal; }
+  .prose-energy li + li { margin-top: 0.4em; }
+  .prose-energy a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-emerald-deep);
+  }
+  .prose-energy blockquote {
+    border-left: 3px solid var(--color-emerald);
+    padding-left: 1rem;
+    color: var(--color-forest-soft);
+  }
+  .prose-energy pre {
+    background-color: var(--color-mist-warm);
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+  }
+  .prose-energy :not(pre) > code {
+    background-color: var(--color-mist-warm);
+    border: 1px solid var(--color-line);
+    border-radius: 0.25rem;
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+  }
+  .prose-energy figure {
+    margin-top: 2em;
+  }
+  .prose-energy figcaption {
+    font-size: 0.85rem;
+    color: var(--color-forest-soft);
+    margin-top: 0.6rem;
+  }
+  .prose-energy table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.925rem;
+  }
+  .prose-energy th,
+  .prose-energy td {
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+  }
+  .prose-energy th {
+    font-weight: 600;
+  }
+}
+
+/* Hero load-profile: one orchestrated page-load moment, nothing else moves. */
+@keyframes trace-in {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fill-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

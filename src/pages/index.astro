@@ -1,11 +1,176 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Base from "../layouts/Base.astro";
+import LoadProfile from "../components/LoadProfile.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { site, education } from "../data/site";
+import { certifications, skills } from "../data/experience";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featured = certifications.filter((c) => c.featured);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<Base>
+  <!-- Hero -->
+  <section class="mx-auto max-w-6xl px-5 pt-10 pb-4 sm:px-8 sm:pt-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end lg:gap-16">
+      <div>
+        <h1 class="max-w-[16ch] text-display font-extrabold text-balance">
+          I find the energy plants pay for and never use.
+        </h1>
+        <p class="mt-6 max-w-[54ch] text-lg leading-relaxed text-forest/90 sm:text-xl">
+          {site.role} at Energy Sciences. I audit industrial and commercial facilities, quantify
+          what efficiency measures will actually save, and verify the savings after the work is
+          done.
+        </p>
+      </div>
+
+      <dl class="grid grid-cols-3 gap-x-6 gap-y-4 lg:grid-cols-1 lg:gap-y-5 lg:pb-1">
+        <div>
+          <dt class="text-xs text-forest-soft">Based in</dt>
+          <dd class="mt-0.5 font-semibold">{site.location}</dd>
+        </div>
+        <div>
+          <dt class="text-xs text-forest-soft">Audits led</dt>
+          <dd class="mt-0.5 font-semibold tnum">10+ ASHRAE I–III</dd>
+        </div>
+        <div>
+          <dt class="text-xs text-forest-soft">Credentials</dt>
+          <dd class="mt-0.5 font-semibold">CEM, LEED GA, EIT</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="mt-10 sm:mt-12">
+      <LoadProfile />
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      <a
+        href="/experience"
+        class="rounded-md bg-emerald px-5 py-3 text-[0.95rem] font-semibold text-deep transition-colors hover:bg-emerald-deep hover:text-mist"
+      >
+        See the work
+      </a>
+      <a
+        href={site.resume}
+        download
+        class="rounded-md border border-line-strong px-5 py-3 text-[0.95rem] font-semibold transition-colors hover:border-emerald-deep hover:text-emerald-deep"
+      >
+        Download resume
+      </a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="mx-auto mt-20 max-w-6xl px-5 sm:px-8 sm:mt-28">
+    <SectionHeading title="About" as="h2" aside="Mechanical engineering foundation, industrial engineering method." />
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16">
+      <div class="max-w-[66ch] space-y-5 text-[1.05rem] leading-relaxed">
+        <p>
+          I work on the unglamorous middle of decarbonization: the compressed air line that leaks,
+          the air handler that runs at full speed all night, the process heater nobody has trended
+          since commissioning. Finding those is a measurement problem before it is an engineering
+          problem, which is where my training comes in.
+        </p>
+        <p>
+          My <strong class="font-semibold">M.S. in Industrial Engineering</strong> at West Virginia
+          University was built around quantitative analysis — regression modeling in R and Python,
+          large public datasets, and the statistics needed to defend a savings number to a utility
+          reviewer. My thesis used multilevel regression across U.S. counties to test how
+          socioeconomic and demographic factors shape energy consumption, and produced two
+          peer-reviewed papers and a review article.
+        </p>
+        <p>
+          Alongside that I ran more than ten ASHRAE Level I–III assessments through the WVU
+          Pollution Prevention Lab. Today I do the same work at Energy Sciences: on-site
+          assessment, custom savings calculations against state Technical Reference Manuals,
+          incentive validation, and post-install Measurement and Verification.
+        </p>
+        <p>
+          Before the U.S., I designed solar arrays and pumping systems with SunFarmer Nepal and
+          studied the economics of moving Nepal's motorcycle fleet off gasoline. That work still
+          shapes how I think about efficiency — as something that has to pencil out for the people
+          paying for it.
+        </p>
+      </div>
+
+      <aside class="space-y-8">
+        <div>
+          <h3 class="text-h3 font-semibold">Education</h3>
+          <ul class="mt-3 space-y-4">
+            {
+              education.map((e) => (
+                <li class="border-l-2 border-emerald pl-3.5">
+                  <p class="font-semibold">{e.degree}</p>
+                  <p class="text-sm text-forest-soft">
+                    {e.school}, {e.place}
+                  </p>
+                  <p class="mt-0.5 text-sm text-forest-soft tnum">
+                    {e.years} &middot; {e.detail}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-h3 font-semibold">Credentials</h3>
+          <ul class="mt-3 flex flex-wrap gap-1.5">
+            {
+              featured.map((c) => (
+                <li
+                  class="rounded border border-line-strong px-2.5 py-1 text-sm font-semibold"
+                  title={`${c.name} — ${c.issuer}`}
+                >
+                  {c.abbr}
+                </li>
+              ))
+            }
+          </ul>
+          <p class="mt-2.5 text-sm text-forest-soft">
+            <a href="/experience#certifications" class="link-underline">Full list with issuers</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Capability -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:px-8 sm:mt-28">
+    <SectionHeading title="What I work with" as="h2" />
+    <div class="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+      {
+        skills.map((s) => (
+          <div>
+            <h3 class="text-h3 font-semibold">{s.group}</h3>
+            <p class="mt-2 leading-relaxed text-forest-soft">{s.items.join(", ")}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Wayfinding -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:px-8 sm:mt-28">
+    <ul class="grid gap-3 sm:grid-cols-3">
+      {
+        [
+          { href: "/experience", title: "Experience", copy: "Roles, research, and credentials." },
+          { href: "/publications", title: "Publications", copy: "Peer-reviewed papers and talks." },
+          { href: "/projects", title: "Projects", copy: "Analytics and feasibility work." },
+        ].map((c) => (
+          <li>
+            <a
+              href={c.href}
+              class="panel block h-full px-5 py-5 transition-colors hover:border-emerald-deep"
+            >
+              <p class="text-h3 font-semibold">{c.title}</p>
+              <p class="mt-1.5 text-sm text-forest-soft">{c.copy}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

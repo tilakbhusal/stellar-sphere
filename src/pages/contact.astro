@@ -1,0 +1,82 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base
+  title="Contact"
+  description={`Get in touch with Tilak Bhusal — ${site.email}`}
+>
+  <div class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
+    <h1 class="text-display font-extrabold">Contact</h1>
+    <p class="mt-5 max-w-[56ch] text-lg leading-relaxed text-forest/90">
+      Open to conversations about industrial efficiency work, utility program engineering, and
+      research collaboration. Email is the fastest way to reach me.
+    </p>
+  </div>
+
+  <section class="mx-auto mt-12 max-w-6xl px-5 sm:px-8">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_320px]">
+      <div class="panel px-6 py-7 sm:px-8 sm:py-9">
+        <h2 class="text-h3 font-semibold">Email</h2>
+        <a
+          href={`mailto:${site.email}`}
+          class="mt-2 block text-xl font-bold break-all text-emerald-deep link-underline sm:text-2xl"
+        >
+          {site.email}
+        </a>
+
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a
+            href={`mailto:${site.email}`}
+            class="rounded-md bg-emerald px-5 py-3 text-[0.95rem] font-semibold text-deep transition-colors hover:bg-emerald-deep hover:text-mist"
+          >
+            Send an email
+          </a>
+          <a
+            href={site.resume}
+            download="Tilak-Bhusal-Resume.pdf"
+            class="rounded-md border border-line-strong px-5 py-3 text-[0.95rem] font-semibold transition-colors hover:border-emerald-deep hover:text-emerald-deep"
+          >
+            Download resume
+          </a>
+        </div>
+
+        <p class="mt-5 text-sm text-forest-soft">
+          Prefer the long version? <a href={site.cv} download class="link-underline font-medium"
+            >Download the full CV</a
+          >.
+        </p>
+      </div>
+
+      <aside class="panel px-6 py-7">
+        <h2 class="text-h3 font-semibold">Elsewhere</h2>
+        <ul class="mt-4 space-y-4">
+          <li>
+            <a
+              href={site.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold link-underline">LinkedIn</a
+            >
+            <p class="mt-0.5 text-sm text-forest-soft">Roles, updates, and professional network.</p>
+          </li>
+          <li>
+            <a
+              href={site.scholar}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold link-underline">Google Scholar</a
+            >
+            <p class="mt-0.5 text-sm text-forest-soft">Publications and citations.</p>
+          </li>
+        </ul>
+
+        <div class="mt-7 border-t border-line pt-5">
+          <h3 class="text-sm font-semibold">Location</h3>
+          <p class="mt-1 text-forest-soft">{site.location}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

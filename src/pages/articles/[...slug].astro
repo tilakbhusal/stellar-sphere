@@ -1,0 +1,59 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("articles", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+type Props = { post: CollectionEntry<"articles"> };
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
+    <p class="text-sm">
+      <a href="/articles" class="link-underline text-forest-soft">Articles</a>
+    </p>
+
+    <header class="mt-5 max-w-[42rem]">
+      <h1
+        class="text-[clamp(2rem,1.25rem+2.6vw,3.15rem)] leading-[1.06] font-extrabold tracking-[-0.03em] text-balance"
+      >
+        {post.data.title}
+      </h1>
+    </header>
+
+    <p class="mt-6 max-w-[68ch] text-lg leading-relaxed text-forest/90">
+      {post.data.description}
+    </p>
+
+    <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line-strong pt-4 text-sm text-forest-soft">
+      <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+      {
+        post.data.updated && (
+          <span>Updated <time datetime={post.data.updated.toISOString()}>{fmt(post.data.updated)}</time></span>
+        )
+      }
+      {post.data.readingTime && <span class="tnum">{post.data.readingTime} min read</span>}
+      {
+        post.data.tags.length > 0 && (
+          <ul class="flex flex-wrap gap-1.5">
+            {post.data.tags.map((t) => (
+              <li class="rounded border border-line px-2 py-0.5 text-xs font-medium">{t}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="prose-energy mt-10 text-[1.05rem]">
+      <Content />
+    </div>
+  </article>
+</Base>

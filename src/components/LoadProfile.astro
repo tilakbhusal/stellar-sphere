@@ -1,0 +1,137 @@
+---
+/**
+ * A 24-hour facility demand profile: metered baseline against the same
+ * facility after efficiency measures, with the avoided energy shaded.
+ * This is the one animated element on the site — it traces once on load
+ * and is static thereafter. Illustrative shape, not client data.
+ */
+const BASE =
+  "M 0.0 135.6 C 5.7 135.9, 22.8 136.7, 34.2 137.2 C 45.6 137.7, 56.9 138.4, 68.3 138.8 C 79.7 139.1, 91.1 139.4, 102.5 139.4 C 113.9 139.4, 125.3 139.7, 136.7 138.8 C 148.1 137.9, 159.4 139.3, 170.8 134.0 C 182.2 128.8, 193.6 118.5, 205.0 107.2 C 216.4 95.8, 227.8 76.9, 239.2 66.1 C 250.6 55.3, 261.9 47.6, 273.3 42.4 C 284.7 37.1, 296.1 36.6, 307.5 34.5 C 318.9 32.3, 330.3 31.3, 341.7 29.7 C 353.1 28.1, 364.4 24.7, 375.8 25.0 C 387.2 25.2, 398.6 31.0, 410.0 31.3 C 421.4 31.6, 432.8 28.1, 444.2 26.5 C 455.6 25.0, 466.9 21.3, 478.3 21.8 C 489.7 22.3, 501.1 24.4, 512.5 29.7 C 523.9 35.0, 535.3 43.7, 546.7 53.4 C 558.1 63.2, 569.4 79.2, 580.8 88.2 C 592.2 97.2, 603.6 102.4, 615.0 107.2 C 626.4 111.9, 637.8 114.0, 649.2 116.6 C 660.6 119.3, 671.9 121.1, 683.3 123.0 C 694.7 124.8, 706.1 126.4, 717.5 127.7 C 728.9 129.0, 740.3 129.8, 751.7 130.9 C 763.1 131.9, 774.4 133.2, 785.8 134.0 C 797.2 134.8, 814.3 135.3, 820.0 135.6";
+
+const OPT =
+  "M 0.0 168.8 C 5.7 169.1, 22.8 170.0, 34.2 170.4 C 45.6 170.8, 56.9 170.8, 68.3 171.0 C 79.7 171.2, 91.1 171.7, 102.5 171.7 C 113.9 171.7, 125.3 172.0, 136.7 171.0 C 148.1 170.0, 159.4 172.3, 170.8 165.6 C 182.2 159.0, 193.6 143.5, 205.0 130.9 C 216.4 118.2, 227.8 100.6, 239.2 89.8 C 250.6 79.0, 261.9 71.2, 273.3 66.1 C 284.7 61.0, 296.1 60.8, 307.5 59.1 C 318.9 57.4, 330.3 57.0, 341.7 55.9 C 353.1 54.9, 364.4 52.4, 375.8 52.8 C 387.2 53.2, 398.6 58.0, 410.0 58.2 C 421.4 58.4, 432.8 55.4, 444.2 54.1 C 455.6 52.7, 466.9 49.7, 478.3 50.3 C 489.7 50.8, 501.1 52.6, 512.5 57.2 C 523.9 61.8, 535.3 69.2, 546.7 78.1 C 558.1 86.9, 569.4 101.5, 580.8 110.3 C 592.2 119.1, 603.6 125.3, 615.0 130.9 C 626.4 136.4, 637.8 140.1, 649.2 143.5 C 660.6 146.9, 671.9 149.3, 683.3 151.4 C 694.7 153.5, 706.1 155.0, 717.5 156.2 C 728.9 157.3, 740.3 157.6, 751.7 158.4 C 763.1 159.2, 774.4 160.2, 785.8 160.9 C 797.2 161.6, 814.3 162.2, 820.0 162.5";
+
+const AREA = `${BASE} L 820.0 162.5 L 785.8 160.9 L 751.7 158.4 L 717.5 156.2 L 683.3 151.4 L 649.2 143.5 L 615.0 130.9 L 580.8 110.3 L 546.7 78.1 L 512.5 57.2 L 478.3 50.3 L 444.2 54.1 L 410.0 58.2 L 375.8 52.8 L 341.7 55.9 L 307.5 59.1 L 273.3 66.1 L 239.2 89.8 L 205.0 130.9 L 170.8 165.6 L 136.7 171.0 L 102.5 171.7 L 68.3 171.0 L 34.2 170.4 L 0.0 168.8 Z`;
+
+const ticks = [
+  { x: 0, label: "00:00" },
+  { x: 205, label: "06:00" },
+  { x: 410, label: "12:00" },
+  { x: 615, label: "18:00" },
+  { x: 820, label: "24:00" },
+];
+---
+
+<figure class="load-profile">
+  <svg
+    viewBox="0 0 820 210"
+    class="h-auto w-full"
+    role="img"
+    aria-labelledby="lp-title lp-desc"
+    preserveAspectRatio="none"
+  >
+    <title id="lp-title">Twenty-four hour electrical demand profile</title>
+    <desc id="lp-desc">
+      Two curves over one day. The upper curve is a facility's metered baseline demand; the lower
+      curve is the same facility after efficiency measures. The gap between them is the avoided
+      energy.
+    </desc>
+
+    {
+      ticks.map((t) => (
+        <line
+          x1={t.x === 0 ? 0.5 : t.x === 820 ? 819.5 : t.x}
+          y1="6"
+          x2={t.x === 0 ? 0.5 : t.x === 820 ? 819.5 : t.x}
+          y2="204"
+          stroke="var(--color-line)"
+          stroke-width="1"
+        />
+      ))
+    }
+    <line x1="0" y1="203.5" x2="820" y2="203.5" stroke="var(--color-line-strong)" stroke-width="1" />
+
+    <path d={AREA} fill="#34D399" fill-opacity="0.34" class="lp-area" />
+    <path
+      d={BASE}
+      fill="none"
+      stroke="var(--color-forest)"
+      stroke-opacity="0.5"
+      stroke-width="2"
+      stroke-dasharray="6 5"
+      vector-effect="non-scaling-stroke"
+      class="lp-base"
+    />
+    <path
+      d={OPT}
+      fill="none"
+      stroke="var(--color-emerald-deep)"
+      stroke-width="2.75"
+      stroke-linecap="round"
+      vector-effect="non-scaling-stroke"
+      class="lp-opt"
+    />
+  </svg>
+
+  <figcaption
+    class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[0.72rem] text-forest-soft"
+  >
+    <span class="tnum">00:00</span>
+    <span class="flex items-center gap-1.5">
+      <span class="inline-block h-0 w-5 border-t-2 border-dashed border-forest/50"></span>
+      Metered baseline
+    </span>
+    <span class="flex items-center gap-1.5">
+      <span class="inline-block h-0 w-5 border-t-[2.5px] border-emerald-deep"></span>
+      After measures
+    </span>
+    <span class="ml-auto tnum">24:00</span>
+  </figcaption>
+</figure>
+
+<style>
+  .lp-base,
+  .lp-opt {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: trace-in 1600ms var(--ease-out-soft) forwards;
+  }
+  .lp-base {
+    animation-delay: 120ms;
+    /* Restore the dashed pattern once the trace completes. */
+    animation-name: trace-in, restore-dash;
+    animation-duration: 1600ms, 1ms;
+    animation-delay: 120ms, 1720ms;
+    animation-fill-mode: forwards, forwards;
+  }
+  .lp-opt {
+    animation-delay: 380ms;
+  }
+  .lp-area {
+    opacity: 0;
+    animation: fill-in 900ms var(--ease-out-soft) 1300ms forwards;
+  }
+
+  @keyframes restore-dash {
+    to {
+      stroke-dasharray: 6 5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-base {
+      stroke-dasharray: 6 5;
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+    .lp-opt {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+    .lp-area {
+      opacity: 1;
+      animation: none;
+    }
+  }
+</style>

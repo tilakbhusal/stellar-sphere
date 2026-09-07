@@ -1,0 +1,211 @@
+---
+import Base from "../layouts/Base.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import {
+  work,
+  research,
+  certifications,
+  awards,
+  training,
+  affiliations,
+  type Role,
+} from "../data/experience";
+import { education } from "../data/site";
+
+const groups: { id: string; title: string; aside: string; roles: Role[] }[] = [
+  {
+    id: "work",
+    title: "Work experience",
+    aside: "Energy engineering, mechanical design, and field delivery.",
+    roles: work,
+  },
+  {
+    id: "research",
+    title: "Research experience",
+    aside: "Graduate and undergraduate research in energy and pollution prevention.",
+    roles: research,
+  },
+];
+---
+
+<Base
+  title="Experience"
+  description="Professional engineering roles, research positions, and certifications held by Tilak Bhusal, energy engineer."
+>
+  <div class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
+    <h1 class="text-display font-extrabold">Experience</h1>
+    <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-forest/90">
+      Seven years across energy auditing, research, and mechanical design — in West Virginia,
+      Michigan, and Nepal.
+    </p>
+
+    <nav aria-label="On this page" class="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      <a href="#work" class="link-underline">Work</a>
+      <a href="#research" class="link-underline">Research</a>
+      <a href="#education" class="link-underline">Education</a>
+      <a href="#certifications" class="link-underline">Certifications</a>
+      <a href="#awards" class="link-underline">Awards</a>
+      <a href="#training" class="link-underline">Training</a>
+    </nav>
+  </div>
+
+  {
+    groups.map((g) => (
+      <section class="mx-auto mt-20 max-w-6xl px-5 sm:mt-24 sm:px-8">
+        <SectionHeading title={g.title} id={g.id} aside={g.aside} />
+
+        <ol class="mt-8 space-y-10">
+          {g.roles.map((r) => (
+            <li class="grid gap-x-10 gap-y-3 border-l-2 border-line-strong pl-5 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:border-l-0 sm:pl-0">
+              <div class="sm:border-l-2 sm:border-emerald sm:pl-4">
+                <p class="text-sm font-semibold tnum">
+                  {r.start} – {r.end}
+                </p>
+                {r.place && <p class="mt-0.5 text-sm text-forest-soft">{r.place}</p>}
+              </div>
+
+              <div>
+                <h3 class="text-h3 font-bold">{r.title}</h3>
+                <p class="mt-0.5 font-medium text-emerald-deep">{r.org}</p>
+
+                <ul class="mt-3.5 max-w-[70ch] space-y-2.5">
+                  {r.bullets.map((b) => (
+                    <li class="relative pl-5 leading-relaxed">
+                      <span
+                        aria-hidden="true"
+                        class="absolute top-[0.62em] left-0 h-1.5 w-1.5 rounded-[1px] bg-emerald"
+                      />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+
+                {r.note && (
+                  <div class="panel mt-5 max-w-[70ch] px-4 py-4">
+                    <p class="text-sm font-bold">{r.note.label}</p>
+                    <ul class="mt-2 space-y-2">
+                      {r.note.items.map((i) => (
+                        <li class="relative pl-5 text-[0.95rem] leading-relaxed">
+                          <span
+                            aria-hidden="true"
+                            class="absolute top-[0.62em] left-0 h-1.5 w-1.5 rounded-[1px] bg-emerald-deep"
+                          />
+                          {i}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+
+  <!-- Education -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:mt-24 sm:px-8">
+    <SectionHeading title="Education" id="education" />
+    <ol class="mt-8 space-y-8">
+      {
+        education.map((e) => (
+          <li class="grid gap-x-10 gap-y-2 border-l-2 border-line-strong pl-5 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:border-l-0 sm:pl-0">
+            <p class="text-sm font-semibold tnum sm:border-l-2 sm:border-emerald sm:pl-4">
+              {e.years}
+            </p>
+            <div>
+              <h3 class="text-h3 font-bold">{e.degree}</h3>
+              <p class="mt-0.5 font-medium text-emerald-deep">{e.school}</p>
+              <p class="mt-0.5 text-sm text-forest-soft">
+                {e.place} &middot; <span class="tnum">{e.detail}</span>
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Certifications -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:mt-24 sm:px-8">
+    <SectionHeading
+      title="Professional certifications"
+      id="certifications"
+      aside="Held and current."
+    />
+    <ul class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        certifications.map((c) => (
+          <li
+            class={`panel flex flex-col gap-1 px-5 py-5 ${
+              c.featured ? "border-emerald-deep/45" : ""
+            }`}
+          >
+            <p class="text-2xl font-extrabold tracking-tight text-emerald-deep">{c.abbr}</p>
+            <p class="font-semibold">{c.name}</p>
+            <p class="text-sm text-forest-soft">{c.issuer}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Awards -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:mt-24 sm:px-8">
+    <SectionHeading title="Fellowships and awards" id="awards" />
+    <ol class="mt-8 divide-y divide-line">
+      {
+        awards.map((a) => (
+          <li class="grid gap-x-10 gap-y-1 py-4 sm:grid-cols-[9.5rem_minmax(0,1fr)]">
+            <p class="text-sm font-semibold tnum text-forest-soft">{a.year}</p>
+            <div>
+              <p class="font-semibold">{a.title}</p>
+              <p class="mt-0.5 max-w-[70ch] text-sm text-forest-soft">{a.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Training + affiliations -->
+  <section class="mx-auto mt-20 max-w-6xl px-5 sm:mt-24 sm:px-8">
+    <SectionHeading title="Training and affiliations" id="training" />
+    <div class="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h3 class="text-h3 font-semibold">Workshops and training</h3>
+        <ol class="mt-3 divide-y divide-line">
+          {
+            training.map((t) => (
+              <li class="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-4 py-3">
+                <p class="text-sm font-semibold tnum text-forest-soft">{t.year}</p>
+                <div>
+                  <p class="font-medium">{t.title}</p>
+                  {t.detail && <p class="text-sm text-forest-soft">{t.detail}</p>}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div>
+        <h3 class="text-h3 font-semibold">Membership and service</h3>
+        <ul class="mt-3 space-y-2.5">
+          {
+            affiliations.map((a) => (
+              <li class="relative max-w-[60ch] pl-5 leading-relaxed">
+                <span
+                  aria-hidden="true"
+                  class="absolute top-[0.62em] left-0 h-1.5 w-1.5 rounded-[1px] bg-emerald"
+                />
+                {a}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
