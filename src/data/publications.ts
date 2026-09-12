@@ -15,6 +15,14 @@ export const SELF = "Bhusal, T.";
 
 export const peerReviewed: Publication[] = [
   {
+    authors: ["Bhusal, T.", "Choudhury, A."],
+    year: "2026",
+    title:
+      "Determinants of energy consumption in residential, commercial, and industrial sectors: A systematic literature review",
+    venue: "Under peer review",
+    status: "Submitted",
+  },
+  {
     authors: ["Bhusal, T.", "Timilsina, S. S.", "Nimbarte, A.", "Choudhury, A."],
     year: "2025",
     title:
@@ -32,24 +40,6 @@ export const peerReviewed: Publication[] = [
     venue: "Proceedings of the West Virginia Academy of Science, 97(1)",
     doi: "10.55632/pwvas.v97i1.1106",
     url: "https://doi.org/10.55632/pwvas.v97i1.1106",
-  },
-  {
-    authors: ["Subedi, N.", "Pandey, A.", "Bhusal, T."],
-    year: "2022",
-    title:
-      "Study of motorcycle rear suspension behavior with length of swing arm and its inclination angle",
-    venue: "VETOMAC — International Conference on Vibration Engineering and Technology of Machinery",
-  },
-];
-
-export const inProgress: Publication[] = [
-  {
-    authors: ["Bhusal, T.", "Choudhury, A."],
-    year: "2026",
-    title:
-      "Determinants of energy consumption in residential, commercial, and industrial sectors: A systematic literature review",
-    venue: "Under peer review",
-    status: "Submitted",
   },
 ];
 
