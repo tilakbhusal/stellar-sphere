@@ -15,6 +15,15 @@ export const SELF = "Bhusal, T.";
 
 export const peerReviewed: Publication[] = [
   {
+    authors: ["Sharma Timilsina, S.", "Bhusal, T.", "Choudhury, A."],
+    year: "2026",
+    title:
+      "Impact of Pollution on Cancer: A Systematic Review and Meta-Analysis with Focus on Air Pollution",
+    venue:
+      "International Journal of Environmental Research and Public Health, 23(4), 429",
+    status: "Published",
+  },
+  {
     authors: ["Bhusal, T.", "Choudhury, A."],
     year: "2026",
     title:
