@@ -26,14 +26,12 @@ export const education = [
     school: "West Virginia University",
     place: "Morgantown, WV",
     degree: "M.S., Industrial Engineering",
-    detail: "GPA 3.88 / 4.0",
     years: "2024 – 2025",
   },
   {
     school: "Tribhuvan University",
     place: "Pulchowk, Nepal",
     degree: "B.S., Mechanical Engineering",
-    detail: "GPA 3.75 / 4.0",
     years: "2018 – 2023",
   },
 ] as const;
