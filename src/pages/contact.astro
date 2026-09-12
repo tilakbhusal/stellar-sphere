@@ -7,47 +7,55 @@ import { site } from "../data/site";
   title="Contact"
   description={`Get in touch with Tilak Bhusal — ${site.email}`}
 >
-  <div class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
-    <h1 class="text-display font-extrabold">Contact</h1>
-    <p class="mt-5 max-w-[56ch] text-lg leading-relaxed text-forest/90">
-      Open to conversations about industrial efficiency work, utility program engineering, and
-      research collaboration. Email is the fastest way to reach me.
-    </p>
+  <div class="panel px-6 py-7 sm:px-8 sm:py-9">
+  <h2 class="text-h3 font-semibold">Email</h2>
+  <a
+    href={`mailto:${site.email}`}
+    class="mt-2 block text-xl font-bold break-all text-emerald-deep link-underline sm:text-2xl"
+  >
+    {site.email}
+  </a>
+
+  <div class="mt-7 flex flex-wrap items-center gap-3">
+    <a
+      href={`mailto:${site.email}`}
+      class="rounded-md bg-emerald px-5 py-3 text-[0.95rem] font-semibold text-deep transition-colors hover:bg-emerald-deep hover:text-mist"
+    >
+      Send an email
+    </a>
   </div>
 
-  <section class="mx-auto mt-12 max-w-6xl px-5 sm:px-8">
-    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_320px]">
-      <div class="panel px-6 py-7 sm:px-8 sm:py-9">
-        <h2 class="text-h3 font-semibold">Email</h2>
-        <a
-          href={`mailto:${site.email}`}
-          class="mt-2 block text-xl font-bold break-all text-emerald-deep link-underline sm:text-2xl"
-        >
-          {site.email}
-        </a>
+  <!-- ⭐ NEW RESUME PREVIEW SECTION ⭐ -->
+  <h2 class="text-h3 font-semibold mt-10">Resume Preview</h2>
+  <p class="mt-3 text-forest-soft text-[0.95rem] leading-relaxed">
+    My resume summarizes my work in industrial energy efficiency, utility program engineering,
+    and quantitative analysis. It includes my professional experience, technical skills,
+    certifications, and selected projects.
+  </p>
 
-        <div class="mt-7 flex flex-wrap items-center gap-3">
-          <a
-            href={`mailto:${site.email}`}
-            class="rounded-md bg-emerald px-5 py-3 text-[0.95rem] font-semibold text-deep transition-colors hover:bg-emerald-deep hover:text-mist"
-          >
-            Send an email
-          </a>
-          <a
-            href={site.resume}
-            download="Tilak-Bhusal-Resume.pdf"
-            class="rounded-md border border-line-strong px-5 py-3 text-[0.95rem] font-semibold transition-colors hover:border-emerald-deep hover:text-emerald-deep"
-          >
-            Download resume
-          </a>
-        </div>
+  <ul class="mt-4 space-y-2 text-sm text-forest-soft">
+    <li>• Industrial & commercial energy audits (ASHRAE I–III)</li>
+    <li>• Measurement-based savings verification</li>
+    <li>• Utility program engineering & decarbonization work</li>
+    <li>• CEM, LEED GA, EIT credentials</li>
+  </ul>
 
-        <p class="mt-5 text-sm text-forest-soft">
-          Prefer the long version? <a href={site.cv} download class="link-underline font-medium"
-            >Download the full CV</a
-          >.
-        </p>
-      </div>
+  <div class="mt-7 flex flex-wrap items-center gap-3">
+    <a
+      href={site.resume}
+      download="Tilak-Bhusal-Resume.pdf"
+      class="rounded-md border border-line-strong px-5 py-3 text-[0.95rem] font-semibold transition-colors hover:border-emerald-deep hover:text-emerald-deep"
+    >
+      Download resume
+    </a>
+  </div>
+
+  <p class="mt-5 text-sm text-forest-soft">
+    Prefer the long version? <a href={site.cv} download class="link-underline font-medium"
+      >Download the full CV</a
+    >.
+  </p>
+</div>
 
       <aside class="panel px-6 py-7">
         <h2 class="text-h3 font-semibold">Elsewhere</h2>
