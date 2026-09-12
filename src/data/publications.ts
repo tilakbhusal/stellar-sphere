@@ -72,6 +72,5 @@ export const conferences = [
   { year: "2025", name: "AEE East Conference and Expo" },
   { year: "2023", name: "National Renewable Energy and Policy Symposium, EnergizeNepal, Kathmandu University" },
   { year: "2020", name: "National Mechanical Engineering Seminar, SOMAES" },
-  { year: "2019", name: "National Mechanical Engineering Seminar, SOMAES" },
   { year: "2019", name: "National Young Scientists Conference, RECAST" },
 ];
