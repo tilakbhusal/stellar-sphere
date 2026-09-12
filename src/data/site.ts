@@ -4,7 +4,7 @@ export const site = {
   tagline: "Industrial energy efficiency, decarbonization, and quantitative analysis.",
   location: "Ann Arbor, Michigan",
   email: "tilak.bhusal56@gmail.com",
-  linkedin: "https://linkedin.com/in/tilak-bhusal-6b25aa128",
+  linkedin: "https://www.linkedin.com/in/tilak-bhusal-cem-6b25aa128",
   scholar: "https://scholar.google.com/citations?user=YQO_NagAAAAJ&hl=en",
   resume: "/Tilak-Bhusal-Resume.pdf",
   cv: "/Tilak-Bhusal-CV.pdf",
