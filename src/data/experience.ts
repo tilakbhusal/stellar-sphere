@@ -66,7 +66,7 @@ export const research: Role[] = [
     start: "Jan 2024",
     end: "Dec 2025",
     bullets: [
-      "Conducted more than 10 comprehensive energy assessments across industrial sectors in West Virginia as ASHRAE Level I, II, and III audits.",
+      "Conducted more than 10 comprehensive energy assessments across industrial sectors in West Virginia as ASHRAE Level I and II audits.",
       "Identified and quantified efficiency and pollution prevention opportunities in lighting, HVAC, motors, compressed air, steam, and process heating systems.",
       "Used MEASUR, eQUEST, and Excel-based calculators for energy modeling, equipment analysis, and ROI estimation.",
     ],
