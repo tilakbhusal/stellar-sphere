@@ -29,7 +29,7 @@ export const peerReviewed: Publication[] = [
     title:
       "Determinants of energy consumption in residential, commercial, and industrial sectors: A systematic literature review",
     venue: "Under peer review",
-    status: "Submitted",
+    status: "Published",
   },
   {
     authors: ["Bhusal, T.", "Timilsina, S. S.", "Nimbarte, A.", "Choudhury, A."],
