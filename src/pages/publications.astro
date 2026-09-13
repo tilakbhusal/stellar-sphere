@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import PublicationEntry from "../components/PublicationEntry.astro";
-import { peerReviewed, inProgress, presentations, conferences } from "../data/publications";
+import { peerReviewed, presentations, conferences } from "../data/publications";
 import { site } from "../data/site";
 
 const byYear = <T extends { year: string }>(a: T, b: T) => Number(b.year) - Number(a.year);
