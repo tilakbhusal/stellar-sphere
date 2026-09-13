@@ -19,115 +19,14 @@ twitter:
   image: "https://yourwebsite.com/images/nepal-data-center.jpg"
 ---
 
-import React, { useState } from 'react';
+import GridSimulator from '../../components/GridSimulator.jsx';
+import RealityMatrix from '../../components/RealityMatrix.jsx';
 
-export const ShareButtons = () => (
-  <div style={{ display: 'flex', gap: '12px', margin: '24px 0', flexWrap: 'wrap' }}>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com/nepal-data-center-dream" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#1877F2', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on Facebook</a>
-    <a href="https://twitter.com/intent/tweet?url=https://yourwebsite.com/nepal-data-center-dream&text=Nepal’s Data Center Dream: Promise, Power, and a Reality Check" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#000000', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on X</a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yourwebsite.com/nepal-data-center-dream" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#0A66C2', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on LinkedIn</a>
-  </div>
-);
-
-export const GridSimulator = () => {
-  const [numDCs, setNumDCs] = useState(1);
-  const nepalTotalGrid = 15641; 
-  const hyperscaleUsage = 876;
-  
-  const totalEnergy = numDCs * hyperscaleUsage;
-  const percentage = ((totalEnergy / nepalTotalGrid) * 100).toFixed(1);
-  const barWidth = Math.min(percentage, 100);
-
-  return (
-    <div style={{ background: '#f8f9fa', padding: '24px', borderRadius: '8px', margin: '32px 0', border: '1px solid #e9ecef' }}>
-      <h4 style={{ marginTop: 0, color: '#343a40', fontFamily: 'sans-serif' }}>Interactive: Grid Load Simulator</h4>
-      <p style={{ fontFamily: 'sans-serif', color: '#495057', fontSize: '14px' }}>Adjust the slider to simulate adding 100 MW Hyperscale Data Centers to Nepal's grid.</p>
-      
-      <input 
-        type="range" 
-        min="1" 
-        max="18" 
-        value={numDCs} 
-        onChange={(e) => setNumDCs(e.target.value)}
-        style={{ width: '100%', margin: '16px 0', cursor: 'pointer' }} 
-      />
-      
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'sans-serif', marginBottom: '8px' }}>
-        <strong>Hyperscale Facilities Active: <span style={{ color: '#007bff' }}>{numDCs}</span></strong>
-        <strong>{percentage}% of Grid Reached</strong>
-      </div>
-
-      <div style={{ height: '24px', background: '#e9ecef', borderRadius: '12px', overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ width: `${barWidth}%`, background: percentage > 90 ? '#dc3545' : '#20c997', height: '100%', transition: 'width 0.3s ease, background 0.3s ease' }} />
-      </div>
-
-      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontFamily: 'sans-serif' }}>
-        <div style={{ flex: 1, background: '#fff', padding: '16px', borderRadius: '6px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-          <span style={{ fontSize: '20px', display: 'block', color: '#dc3545', fontWeight: 'bold' }}>{totalEnergy.toLocaleString()} GWh / yr</span>
-          <span style={{ fontSize: '12px', color: '#6c757d', textTransform: 'uppercase' }}>Energy Consumed</span>
-        </div>
-        <div style={{ flex: 1, background: '#fff', padding: '16px', borderRadius: '6px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-          <span style={{ fontSize: '20px', display: 'block', color: '#fd7e14', fontWeight: 'bold' }}>{(numDCs * 364000).toLocaleString()}</span>
-          <span style={{ fontSize: '12px', color: '#6c757d', textTransform: 'uppercase' }}>Equivalent Households</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const RealityMatrix = () => {
-  const points = [
-    { label: 'Ireland', x: 121, y: 23.0, r: 15, color: 'rgba(255, 99, 132, 0.8)' },
-    { label: 'Singapore', x: 99, y: 19.5, r: 18, color: 'rgba(255, 159, 64, 0.8)' },
-    { label: 'Netherlands', x: 298, y: 9.7, r: 25, color: 'rgba(75, 192, 192, 0.8)' },
-    { label: 'Germany', x: 529, y: 6.1, r: 35, color: 'rgba(54, 162, 235, 0.8)' },
-    { label: 'United States', x: 5427, y: 6.0, r: 60, color: 'rgba(153, 102, 255, 0.8)' },
-    { label: 'Nepal (Theoretical Limit)', x: 18, y: 100.0, r: 12, color: 'rgba(220, 53, 69, 1)' }
-  ];
-
-  const width = 600;
-  const height = 350;
-  const padding = 50;
-  const maxLogX = Math.log10(6000);
-
-  return (
-    <div style={{ background: '#f8f9fa', padding: '24px', borderRadius: '8px', margin: '32px 0', border: '1px solid #e9ecef', overflowX: 'auto' }}>
-      <h4 style={{ marginTop: 0, color: '#343a40', fontFamily: 'sans-serif' }}>Interactive: Reality Check Matrix (Hover over bubbles)</h4>
-      <p style={{ fontFamily: 'sans-serif', color: '#495057', fontSize: '14px' }}>Comparing established global data center hubs against Nepal's maximum theoretical limit.</p>
-      <div style={{ minWidth: '500px' }}>
-        <svg viewBox={`0 0 ${width} ${height}`} style={{ width: '100%', height: 'auto', background: '#fff', borderRadius: '4px', border: '1px solid #dee2e6' }}>
-          {/* Grid lines */}
-          <line x1={padding} y1={padding} x2={padding} y2={height - padding} stroke="#e9ecef" strokeWidth="2" />
-          <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#e9ecef" strokeWidth="2" />
-          
-          {/* Axis Labels */}
-          <text x={width / 2} y={height - 10} fontSize="12" textAnchor="middle" fill="#6c757d" fontFamily="sans-serif">Total Data Centers (Log Scale)</text>
-          <text x={15} y={height / 2} fontSize="12" textAnchor="middle" fill="#6c757d" fontFamily="sans-serif" transform={`rotate(-90 15 ${height / 2})`}>% of National Electricity Consumed</text>
-
-          {/* Points */}
-          {points.map((pt, i) => {
-            const cx = padding + (Math.log10(pt.x) / maxLogX) * (width - 2 * padding);
-            const cy = height - padding - (pt.y / 100) * (height - 2 * padding);
-            return (
-              <g key={i}>
-                <circle cx={cx} cy={cy} r={pt.r} fill={pt.color} style={{ transition: 'r 0.2s', cursor: 'pointer' }} onMouseOver={(e) => e.target.setAttribute('r', pt.r + 5)} onMouseOut={(e) => e.target.setAttribute('r', pt.r)}>
-                  <title>{`${pt.label}:\n${pt.x} facilities\nConsumes ${pt.y}% of national grid`}</title>
-                </circle>
-                <text x={cx} y={cy - pt.r - 8} fontSize="11" textAnchor="middle" fill="#495057" fontFamily="sans-serif" fontWeight="bold">
-                  {pt.label}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-    </div>
-  );
-};
-
-<ShareButtons />
-
-> This analysis is heavily referenced from the document **Nepal’s Data Center Dream- Promise, Power, and a Reality Check.docx** verbatim.
+<div style={{ display: 'flex', gap: '12px', margin: '24px 0', flexWrap: 'wrap' }}>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com/nepal-data-center-dream" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#1877F2', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on Facebook</a>
+  <a href="https://twitter.com/intent/tweet?url=https://yourwebsite.com/nepal-data-center-dream&text=Nepal’s Data Center Dream: Promise, Power, and a Reality Check" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#000000', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yourwebsite.com/nepal-data-center-dream" target="_blank" rel="noopener noreferrer" style={{ padding: '8px 16px', background: '#0A66C2', color: 'white', textDecoration: 'none', borderRadius: '4px', fontFamily: 'sans-serif', fontSize: '14px', fontWeight: 'bold' }}>Share on LinkedIn</a>
+</div>
 
 In Nepal, every new technology arrives first as a dream[cite: 1]. Data centers are no different. They promise jobs, investment, digital sovereignty, and the use of surplus hydropower[cite: 1]. But behind the promise lies a difficult question: can Nepal’s electricity grid, water resources, and policy system carry the weight of this dream[cite: 1]?
 
@@ -149,7 +48,7 @@ Although building hyperscale data centers is still a far cry for Nepal from an e
 
 Establishing a few data centers like Bichuten could help satisfy local demand, but making Nepal a global or regional data center hub is still far from reality[cite: 1]. The investment of top global companies like Meta, Google, and Microsoft is not something that can be assumed so easily[cite: 1]. Based on data provided by NEA, the total available energy in FY 2024/25 was 15,641 GWh[cite: 1]. So, let’s do some math. A hyperscale data center established by large technology corporations can go up to 100 MW[cite: 1]. A 100 MW facility running 24/7 would consume around 876 GWh per year[cite: 1]. If we divide Nepal’s total available energy in FY 2024/25 by that number, Nepal’s total available electricity could theoretically support only about 18 hyperscale data centers of 100 MW each[cite: 1]. The number would double for 50 MW facilities, but no country has become a data center hub by building only 18 hyperscale data centers[cite: 1]. In the United States alone, there are more than 1,000 hyperscale data centers, accounting for more than half of all hyperscale data centers in the world[cite: 1].
 
-<GridSimulator />
+<GridSimulator client:visible />
 
 All of this brings us to an important point: Nepal cannot afford to build many hyperscale data centers right now, because its total domestic electricity generation could support only a limited number of them[cite: 1]. This may change in the coming decade, but for now, a few Tier-I and Tier-II data centers could meet domestic demand and help consume surplus electricity[cite: 1]. If Nepal truly wants to become a data center hub, it must first draft proper laws to regulate them, build large hydropower plants, and improve transmission infrastructure, because demand will spike once these energy-guzzling facilities start entering the system[cite: 1]. Only after those steps are taken can we realistically think about becoming a hub[cite: 1].
 
@@ -173,7 +72,7 @@ Now, let’s talk about Ireland, which has recently become a major data center h
 
 The electricity demand from data centers is outpacing generation capacity[cite: 1]. Ireland once embraced data centers enthusiastically, but now they are straining the grid, raising electricity prices for residents, and forcing authorities to put temporary restrictions on new data centers until the problems are addressed[cite: 1]. The Dublin grid is already saturated and cannot take much more load[cite: 1].
 
-<RealityMatrix />
+<RealityMatrix client:visible />
 
 By looking at these global examples, Nepal can still work toward becoming a data center hub, but it must do so through proper policy frameworks, infrastructure investment, workforce development, regulation, zoning, and community benefit programs[cite: 1]. There will be problems if too many data centers are built without planning[cite: 1]. Authorities must make sure that the cost of building these facilities is not passed on to ordinary consumers like you and me[cite: 1]. The increasing demand for electricity should not make our bills go up[cite: 1].
 
