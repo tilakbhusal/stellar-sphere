@@ -12,7 +12,7 @@ const talks = [...presentations].sort(byYear);
 
 <Base
   title="Publications"
-  description="Peer-reviewed publications, work in progress, and conference presentations by Tilak Bhusal on energy consumption, energy equity, and efficiency."
+  description="Peer-reviewed publications and conference presentations by Tilak Bhusal on energy consumption, energy equity, and efficiency."
 >
   <div class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-16">
     <h1 class="text-display font-extrabold">Publications</h1>
@@ -24,11 +24,14 @@ const talks = [...presentations].sort(byYear);
         href={site.scholar}
         target="_blank"
         rel="noopener noreferrer"
-        class="font-medium text-emerald-deep link-underline">Google Scholar profile</a
+        class="font-medium text-emerald-deep link-underline"
       >
+        Google Scholar profile
+      </a>
     </p>
   </div>
 
+  <!-- Peer-reviewed -->
   <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20 sm:px-8">
     <SectionHeading title="Peer-reviewed" as="h2" aside="Reverse chronological. APA style." />
     <ol class="mt-4 divide-y divide-line">
@@ -36,13 +39,7 @@ const talks = [...presentations].sort(byYear);
     </ol>
   </section>
 
-  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20 sm:px-8">
-    <SectionHeading title="Work in progress" as="h2" />
-    <ol class="mt-4 divide-y divide-line">
-      {inProgress.map((p, i) => <PublicationEntry item={p} index={i + 1} />)}
-    </ol>
-  </section>
-
+  <!-- Conference presentations -->
   <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20 sm:px-8">
     <SectionHeading title="Conference presentations" as="h2" />
     <ol class="mt-4 divide-y divide-line">
@@ -50,17 +47,16 @@ const talks = [...presentations].sort(byYear);
     </ol>
   </section>
 
+  <!-- Conferences attended -->
   <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20 sm:px-8">
     <SectionHeading title="Conferences attended" as="h2" />
     <ol class="mt-4 divide-y divide-line">
-      {
-        conferences.map((c) => (
-          <li class="grid gap-x-10 gap-y-1 py-3.5 sm:grid-cols-[5rem_minmax(0,1fr)]">
-            <p class="text-sm font-semibold tnum text-forest-soft">{c.year}</p>
-            <p class="max-w-[70ch]">{c.name}</p>
-          </li>
-        ))
-      }
+      {conferences.map((c) => (
+        <li class="grid gap-x-10 gap-y-1 py-3.5 sm:grid-cols-[5rem_minmax(0,1fr)]">
+          <p class="text-sm font-semibold tnum text-forest-soft">{c.year}</p>
+          <p class="max-w-[70ch]">{c.name}</p>
+        </li>
+      ))}
     </ol>
   </section>
 </Base>
