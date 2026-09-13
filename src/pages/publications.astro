@@ -33,7 +33,7 @@ const talks = [...presentations].sort(byYear);
 
   <!-- Peer-reviewed -->
   <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20 sm:px-8">
-    <SectionHeading title="Peer-reviewed" as="h2" aside="Reverse chronological. APA style." />
+    <SectionHeading title="Peer-reviewed" as="h2" />
     <ol class="mt-4 divide-y divide-line">
       {papers.map((p, i) => <PublicationEntry item={p} index={i + 1} />)}
     </ol>
