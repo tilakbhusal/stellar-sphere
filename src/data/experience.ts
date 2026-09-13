@@ -73,9 +73,9 @@ export const research: Role[] = [
     note: {
       label: "Thesis",
       items: [
-        "A multilevel regression study on the impact of socioeconomic and demographic factors on energy consumption across residential, commercial, and industrial sectors in U.S. counties.",
-        "Analyzed large datasets in R and Python to surface systemic disparities in energy access and usage, with the aim of informing equitable energy policy.",
-        "Produced two peer-reviewed research articles and one review paper.",
+        "A regression study on the impact of socioeconomic and demographic factors on energy consumption across residential, commercial, and industrial sectors in U.S. counties.",
+        "Analyzed large datasets in Python to surface systemic disparities in energy access and usage, with the aim of informing equitable energy policy.",
+        "Produced one peer-reviewed research articles and one review paper.",
       ],
     },
   },
