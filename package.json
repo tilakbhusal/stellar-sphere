@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
