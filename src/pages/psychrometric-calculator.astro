@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import PsychrometricCalculator from '../components/PsychrometricCalculator.jsx';
+---
+<Base title="Psychrometric Calculator" description="Interactive ASHRAE psychrometric calculator with altitude correction, SI and Imperial units, an engineering chart, and independent numerical validation.">
+  <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-5 py-4 text-sm sm:px-8">
+    <a href="/calculators" class="link-underline font-medium text-emerald-deep">← All calculators</a>
+  </nav>
+  <PsychrometricCalculator client:load />
+  <noscript>This calculator needs JavaScript to solve air properties and draw the interactive chart. Enable JavaScript to use it.</noscript>
+</Base>

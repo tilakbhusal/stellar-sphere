@@ -1,11 +1,13 @@
 ---
 import Logo from "./Logo.astro";
 import { nav } from "../data/site";
+import { calculators } from "../data/calculators";
 
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isCurrent = (href: string) => {
   const base = href.split("#")[0].replace(/\/$/, "") || "/";
   if (base === "/") return path === "/";
+  if (base === "/calculators" && calculators.some((calculator) => path === calculator.href.replace(/\/$/, ""))) return true;
   return path === base || path.startsWith(base + "/");
 };
 ---
