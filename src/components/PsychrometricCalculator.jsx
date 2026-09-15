@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {calculate, keys, saturation, humidityRatio, wetBulbRatio, pressureFromAltitude, toDisplay, fromDisplay, unit, inverseSaturation} from '../lib/psychrometrics.js';
 import '../styles/psychrometrics.css';
 
@@ -80,6 +80,10 @@ const lessons=[
 
 export default function PsychrometricCalculator() {
   const [ip,setIp]=useState(false), [mode,setMode]=useState('rh'), [values,setValues]=useState(initial), [alt,setAlt]=useState(''), [feet,setFeet]=useState(false);
+  const root=useRef(null);
+  const [light,setLight]=useState(false), [pdfStatus,setPdfStatus]=useState('');
+  useEffect(()=>{try{setLight(localStorage.getItem('psychrometric-theme')==='light');}catch{}},[]);
+  const toggleTheme=()=>{setLight(!light);try{localStorage.setItem('psychrometric-theme',light?'dark':'light');}catch{}};
   const [assume,setAssume]=useState(false), [assumption,setAssumption]=useState(50);
   const result=useMemo(()=>{
     try {
@@ -102,11 +106,34 @@ export default function PsychrometricCalculator() {
     const blob=new Blob([JSON.stringify({...result,known:values,assumption:assume?{[assumptionKey]:assumption}:null,units:'SI: °C, kPa, kg/kg, kJ/kg; RH %',enthalpyDatum:'0 °C dry air'},null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='psychrometric-state.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   };
+  const exportPDF=async()=>{
+    if(!result.state||result.error||pdfStatus==='Preparing report…')return;
+    const chart=root.current.querySelector('svg.psy-chart')?.cloneNode(true);
+    if(!chart){setPdfStatus('Chart unavailable. Please try again.');return;}
+    const printable=k=>`${format(toDisplay(k,result.state[k],ip),['W','SH'].includes(k)&&!(ip&&k==='W')?6:2)} ${unit(k,ip)}`;
+    const inputs=Object.entries(values).filter(([,v])=>v!==''&&v!==undefined).map(([k,v])=>[
+      labels[k],`${format(toDisplay(k,v,ip),['W','SH'].includes(k)?6:3)} ${unit(k,ip)}`
+    ]);
+    if(assume&&single)inputs.push([`Assumed ${labels[assumptionKey]}`,`${format(toDisplay(assumptionKey,assumption,ip),3)} ${unit(assumptionKey,ip)}`]);
+    inputs.push(['Site altitude',`${alt===''?'0 (sea level default)':alt} ${feet?'ft':'m'}`],['Atmospheric pressure',`${format(toDisplay('P',result.p,ip),3)} ${unit('P',ip)}`]);
+    const snapshot={chart,imperial:ip,inputs,outputs:keys.map(k=>[labels[k],result.state[k]===null?'Not defined':printable(k)]),notes:[
+      `Input mode: ${modes.find(m=>m[0]===mode)[1]}. ${assume&&single?'Includes the explicitly listed assumption.':'No assumed air property.'}`,
+      'Atmospheric pressure is estimated from site altitude using the standard atmosphere. Actual weather pressure may differ.',
+      'Saturation pressure uses the ASHRAE water/ice equations. Below freezing, the reported dew point is a frost point. Ideal-gas psychrometric relationships are used.',
+      'Enthalpy retains the reference of zero dry-air enthalpy at 0 °C in both unit systems. Imperial values use BTU/lb = kJ/kg / 2.326 and differ from charts with a conventional Imperial datum.',
+      'Humidity ratio is water-vapor mass per dry-air mass (grains/lb in Imperial). Specific humidity is water-vapor mass per total moist-air mass.',
+      ...(result.state.Tdp===null?['Dew/frost point is undefined for dry air or below the -100 °C curve limit for trace moisture.']:[]),
+      'This report captures the inputs, results and chart at export time.'
+    ]};
+    setPdfStatus('Preparing report…');
+    try{const {exportPsychrometricReport}=await import('../lib/psychrometric-report.js');await exportPsychrometricReport(snapshot);setPdfStatus('Report downloaded.');}
+    catch{setPdfStatus('Report export failed. Please try again.');}
+  };
   let chartPressure=101.325;
   try{chartPressure=pressureFromAltitude(alt===''?0:Number(alt)*(feet?.3048:1));}catch{/* invalid altitude: chart disabled below */}
-  return <div className="psy-app">
+  return <div className={`psy-app ${light?'psy-light':''}`} ref={root}>
     <div className="psy-shell">
-      <header className="psy-title"><div><span className="psy-eyebrow">TILAK BHUSAL / ENGINEERING TOOLS</span><h1>Understand the air.</h1><p>Precision psychrometrics. From two known properties to the complete picture.</p></div><div className="psy-unit-switch" role="group" aria-label="Unit system"><button aria-pressed={!ip} onClick={()=>setIp(false)}>SI <small>°C / kPa</small></button><button aria-pressed={ip} onClick={()=>setIp(true)}>Imperial <small>°F / psi</small></button></div></header>
+      <header className="psy-title"><div><span className="psy-eyebrow">TILAK BHUSAL / ENGINEERING TOOLS</span><h1>Understand the air.</h1><p>Precision psychrometrics. From two known properties to the complete picture.</p></div><div className="psy-header-controls"><div className="psy-actions"><button className="psy-action" aria-pressed={light} onClick={toggleTheme}>{light?'☾ Dark mode':'☀ Light mode'}</button><button className="psy-action psy-primary" disabled={!result.state||!!result.error||pdfStatus==='Preparing report…'} onClick={exportPDF}>↓ Export engineering PDF</button></div><span className="psy-export-status" role="status">{pdfStatus}</span><div className="psy-unit-switch" role="group" aria-label="Unit system"><button aria-pressed={!ip} onClick={()=>setIp(false)}>SI <small>°C / kPa</small></button><button aria-pressed={ip} onClick={()=>setIp(true)}>Imperial <small>°F / psi</small></button></div></div></header>
       <div className="psy-workspace">
         <aside className="psy-panel psy-input-panel"><span className="psy-eyebrow">01 / DEFINE YOUR CONDITIONS</span><h2>Known properties</h2><p className="psy-muted">Choose your starting point.</p>
           <div className="psy-modes">{modes.map(([id,title,sub])=><button key={id} aria-pressed={mode===id} onClick={()=>selectMode(id)}><span>{title}</span><small>{sub}</small></button>)}</div>
@@ -122,7 +149,7 @@ export default function PsychrometricCalculator() {
         </div>
       </div>
       <section className="psy-learn"><span className="psy-eyebrow">04 / THE SCIENCE, MADE SIMPLE</span><h2>Meet the properties.</h2><p className="psy-muted">Nine ways to describe the same air. Formulas below use SI units; W is per kg of dry air.</p><div className="psy-lesson-grid">{lessons.map(([k,description,formula])=><article className="psy-panel" key={k}><span className="psy-symbol">{k}</span><h3>{labels[k]}</h3><p>{description}</p><code>{formula}</code></article>)}</div></section>
-      <details className="psy-panel psy-method"><summary>Equation details, operating limits & sources</summary><p>Saturation pressure uses ASHRAE equations 5 and 6 with absolute temperature K = Tdb + 273.15. The ice branch applies at or below 0.01 °C; the water branch applies above it.</p><code>ln(Pws [Pa]) = −5674.5359/K + 6.3925247 − 0.009677843K + 6.2215701×10⁻⁷K² + 2.0747825×10⁻⁹K³ − 9.484024×10⁻¹³K⁴ + 4.1635019 ln(K) [ice]</code><code>ln(Pws [Pa]) = −5800.2206/K + 1.3914993 − 0.048640239K + 4.1764768×10⁻⁵K² − 1.4452093×10⁻⁸K³ + 6.5459673 ln(K) [water]</code><p>Below 0 °C wet-bulb: W = [(2830 − 0.24Twb)Ws − 1.006(Tdb − Twb)] / [2830 + 1.86Tdb − 2.1Twb]. Ws is the saturation humidity ratio at Twb. Wet-bulb inversion uses bracketed bisection, split at freezing.</p><p>Altitude: P = 101.325(1 − Lz/T₀)^(gM/RL), where L = 0.0065 K/m, T₀ = 288.15 K, g = 9.80665 m/s², M = 0.0289644 kg/mol, and R = 8.3144598 J/(mol·K). Valid altitude: −500 to 11,000 m. Actual weather pressure can differ.</p><p>Saturation curve: −100 to 200 °C. Complete states must be below the local boiling point, within the wet-bulb curve range, and unsaturated or saturated. Dependent inputs (for example W + SH) cannot determine temperature. Inconsistent measurements require correction; the solver tries alternative pairs but never silently replaces a measurement.</p><p>Enthalpy in both displays retains the SI reference of zero dry-air enthalpy at 0 °C. BTU/lb = kJ/kg ÷ 2.326; this differs from charts using the conventional IP enthalpy datum. Specific humidity uses mass per mass of moist air, never per mass of dry air.</p><p>Reference-table humidity ratios include effects beyond the ideal-gas approximations; the published test tolerances reflect this difference. PsychroLib uses a small moisture floor, which can affect near-dry states. The audit displays those differences.</p><p>Sources: <a href="https://psychrometrics.github.io/psychrolib/api_docs.html">PsychroLib equation references</a> · <a href="https://github.com/psychrometrics/psychrolib/blob/3066345dc8cf91bf59134147cf917f982c1fce13/tests/test_psychrolib_si.py">ASHRAE table checkpoints</a> · <a href="https://www.ashrae.org/technical-resources/ashrae-handbook">ASHRAE Handbook</a>. Independent checker: PsychroLib 2.5.0, MIT licensed.</p></details>
+      <details className="psy-panel psy-method"><summary>Equation details, operating limits & sources</summary><p>Saturation pressure uses ASHRAE equations 5 and 6 with absolute temperature K = Tdb + 273.15. The ice branch applies at or below 0.01 °C; the water branch applies above it.</p><code>ln(Pws [Pa]) = −5674.5359/K + 6.3925247 − 0.009677843K + 6.2215701×10⁻⁷K² + 2.0747825×10⁻⁹K³ − 9.484024×10⁻¹³K⁴ + 4.1635019 ln(K) [ice]</code><code>ln(Pws [Pa]) = −5800.2206/K + 1.3914993 − 0.048640239K + 4.1764768×10⁻⁵K² − 1.4452093×10⁻⁸K³ + 6.5459673 ln(K) [water]</code><p>Below 0 °C wet-bulb: W = [(2830 − 0.24Twb)Ws − 1.006(Tdb − Twb)] / [2830 + 1.86Tdb − 2.1Twb]. Ws is the saturation humidity ratio at Twb. Wet-bulb inversion uses bracketed bisection, split at freezing.</p><p>Altitude: P = 101.325(1 − Lz/T₀)^(gM/RL), where L = 0.0065 K/m, T₀ = 288.15 K, g = 9.80665 m/s², M = 0.0289644 kg/mol, and R = 8.3144598 J/(mol·K). Valid altitude: −500 to 11,000 m. Actual weather pressure can differ.</p><p>Saturation curve: −100 to 200 °C. Complete states must be below the local boiling point, within the wet-bulb curve range, and unsaturated or saturated. Dependent inputs (for example W + SH) cannot determine temperature. Inconsistent measurements require correction; the solver tries alternative pairs but never silently replaces a measurement.</p><p>Enthalpy in both displays retains the SI reference of zero dry-air enthalpy at 0 °C. BTU/lb = kJ/kg ÷ 2.326; this differs from charts using the conventional IP enthalpy datum. Specific humidity uses mass per mass of moist air, never per mass of dry air.</p><p>Reference-table humidity ratios include effects beyond the ideal-gas approximations; the published test tolerances reflect this difference. PsychroLib uses a small moisture floor, which can affect near-dry states. Independent numerical checks account for those differences.</p><p>Sources: <a href="https://psychrometrics.github.io/psychrolib/api_docs.html">PsychroLib equation references</a> · <a href="https://github.com/psychrometrics/psychrolib/blob/3066345dc8cf91bf59134147cf917f982c1fce13/tests/test_psychrolib_si.py">ASHRAE table checkpoints</a> · <a href="https://www.ashrae.org/technical-resources/ashrae-handbook">ASHRAE Handbook</a>. Independent checker: PsychroLib 2.5.0, MIT licensed.</p></details>
       <footer className="psy-footer">PSYCHROMETRICS / ASHRAE FUNDAMENTALS <span>Built for curious minds and careful engineering.</span></footer>
     </div>
   </div>;
