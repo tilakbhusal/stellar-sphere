@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import AffinityCalculator from '../components/AffinityCalculator.jsx';
+const description = 'Pump Calculator and Fan Affinity Laws Calculator with RPM and diameter scaling, custom exponents, a Pump Curve Calculator, VFD Energy Savings Calculator, and engineering PDF reports.';
+---
+<Base title="Pump & Fan Affinity Laws Calculator | VFD Energy Savings" description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context':'https://schema.org', '@type':'WebApplication',
+    name:'Pump and Fan Affinity Laws Calculator', applicationCategory:'UtilitiesApplication',
+    applicationSubCategory:'Engineering Calculator', operatingSystem:'Any', browserRequirements:'Requires JavaScript',
+    url:'https://tilakbhusal.com/pump-affinity-calculator/',description,
+    isAccessibleForFree:true, offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
+    author:{'@type':'Person',name:'Tilak Bhusal'},
+    featureList:['Pump and fan affinity laws','VFD energy savings','Pump curve calculator','Engineering PDF export']
+  })}/>
+  <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-5 py-4 text-sm sm:px-8">
+    <a href="/calculators" class="link-underline font-medium text-emerald-deep">← All calculators</a>
+  </nav>
+  <AffinityCalculator client:load />
+  <noscript>Enable JavaScript to calculate pump and fan performance, explore operating points, and export reports.</noscript>
+</Base>
