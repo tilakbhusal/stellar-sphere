@@ -51,3 +51,12 @@
 .psy-light :focus-visible{outline-color:#087f79}
 @media(max-width:1000px){.psy-title{align-items:flex-start;flex-direction:column}.psy-header-controls{align-items:flex-start}.psy-actions{justify-content:flex-start}}
 @media(max-width:400px){.psy-actions{flex-direction:column;align-items:stretch;width:100%}.psy-header-controls{width:100%}}
+
+.psy-title .psy-unit-switch{display:inline-flex;margin:0 0 18px;gap:4px}
+.psy-title .psy-unit-switch button{min-width:96px;padding:10px 18px}
+.psy-title{align-items:flex-start}.psy-header-controls{padding-top:50px}
+.psy-export-bottom{display:flex;flex-direction:column;align-items:flex-end;gap:10px;border-top:1px solid #294255;margin-top:30px;padding-top:24px}
+.psy-export-bottom p{font-size:11px;color:#abc0d2}
+.psy-light .psy-export-bottom{border-color:#bed0dc}.psy-light .psy-export-bottom p{color:#486579}
+@media(max-width:1000px){.psy-header-controls{padding-top:0;align-self:flex-end;align-items:flex-end}.psy-actions{justify-content:flex-end}}
+@media(max-width:720px){.psy-export-bottom{align-items:stretch}.psy-title .psy-unit-switch button{min-height:48px}}
