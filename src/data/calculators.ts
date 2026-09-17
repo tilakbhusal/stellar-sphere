@@ -9,6 +9,13 @@ export interface Calculator {
 // Add one entry here for each calculator page you publish.
 export const calculators: Calculator[] = [
   {
+    title: "Boiler Blowdown Heat Recovery Sizer",
+    description: "Balance boiler TDS, recover flash steam and residual heat, size the exchanger, and explore fuel savings and 10-year project returns.",
+    href: "/boiler-blowdown-recovery/",
+    category: "Steam Systems & Heat Recovery",
+    features: ["SI & Imperial", "Thermal sizing", "PDF report"],
+  },
+  {
     title: "Power Factor Correction & Demand Optimizer",
     description: "Size reactive compensation, explore harmonic filtering, recover transformer capacity, and estimate demand-charge and feeder-loss savings.",
     href: "/power-factor-optimizer/",
