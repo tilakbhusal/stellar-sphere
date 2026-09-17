@@ -9,6 +9,13 @@ export interface Calculator {
 // Add one entry here for each calculator page you publish.
 export const calculators: Calculator[] = [
   {
+    title: "Power Factor Correction & Demand Optimizer",
+    description: "Size reactive compensation, explore harmonic filtering, recover transformer capacity, and estimate demand-charge and feeder-loss savings.",
+    href: "/power-factor-optimizer/",
+    category: "Electrical Systems & Power Quality",
+    features: ["kVAR sizing", "Tariff comparison", "PDF report"],
+  },
+  {
     title: "Pump & Fan Affinity Laws Calculator",
     description: "Model changes in speed and impeller diameter, explore system operating points, and estimate annual VFD energy savings.",
     href: "/pump-affinity-calculator/",
