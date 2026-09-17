@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import BoilerRecoveryCalculator from '../components/BoilerRecoveryCalculator.jsx';
+const description='Boiler Blowdown Calculator and Blowdown Heat Recovery Sizer with ABMA TDS limits reference, Flash Steam Calculator, shell-and-tube sizing, fuel savings, ROI and PDF reports.';
+---
+<Base title="Boiler Blowdown Calculator | Blowdown Heat Recovery Sizer" description={description}>
+ <script slot="head" type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'WebApplication',name:'Automatic Boiler Blowdown Heat Recovery Sizer',applicationCategory:'UtilitiesApplication',applicationSubCategory:'Mechanical Engineering Calculator',operatingSystem:'Any',browserRequirements:'Requires JavaScript',url:'https://tilakbhusal.com/boiler-blowdown-recovery/',description,isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},author:{'@type':'Person',name:'Tilak Bhusal'},featureList:['SI and Imperial units','TDS blowdown mass balance','Flash steam recovery','Shell-and-tube heat exchanger sizing','10-year cash flow','Engineering PDF report']})}/>
+ <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-5 py-4 text-sm sm:px-8"><a href="/calculators" class="link-underline font-medium text-emerald-deep">← All calculators</a></nav>
+ <BoilerRecoveryCalculator client:load />
+ <noscript>Enable JavaScript to size boiler blowdown heat recovery and export an engineering report.</noscript>
+</Base>
