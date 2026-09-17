@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import PowerFactorCalculator from '../components/PowerFactorCalculator.jsx';
+const description = 'Power Factor Correction Calculator and kVAR Capacitor Sizing Tool with kVA Demand Penalty Calculator, Transformer Capacity Calculator, harmonic filter estimates, ROI and PDF reports.';
+---
+<Base title="Power Factor Correction Calculator | kVA Demand Penalty Optimizer" description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context':'https://schema.org','@type':'WebApplication',
+    name:'Power Factor Correction & kVA Demand Penalty Optimizer',
+    applicationCategory:'UtilitiesApplication',applicationSubCategory:'Electrical Engineering Calculator',
+    operatingSystem:'Any',browserRequirements:'Requires JavaScript',
+    url:'https://tilakbhusal.com/power-factor-optimizer/',description,
+    isAccessibleForFree:true,offers:{'@type':'Offer',price:'0',priceCurrency:'USD'},
+    author:{'@type':'Person',name:'Tilak Bhusal'},
+    featureList:['kVAR capacitor sizing','True and displacement power factor','kVA demand charge optimization','Transformer capacity','Feeder loss savings','Harmonic filter screening','Engineering PDF report']
+  })}/>
+  <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-5 py-4 text-sm sm:px-8"><a href="/calculators" class="link-underline font-medium text-emerald-deep">← All calculators</a></nav>
+  <PowerFactorCalculator client:load />
+  <noscript>Enable JavaScript to calculate power factor correction, explore tariffs and export an engineering report.</noscript>
+</Base>
