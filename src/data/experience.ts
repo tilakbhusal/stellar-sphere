@@ -112,7 +112,6 @@ export const certifications: Credential[] = [
   { abbr: "CEM", name: "Certified Energy Manager", issuer: "Association of Energy Engineers", featured: true },
   { abbr: "LEED GA", name: "LEED Green Associate", issuer: "Green Business Certification Inc.", featured: true },
   { abbr: "EIT", name: "Engineer-in-Training", issuer: "NCEES", featured: true },
-  { abbr: "PE", name: "Professional Engineer", issuer: "Nepal Engineering Council", featured: true },
   { abbr: "CSWP", name: "Certified SolidWorks Professional", issuer: "Dassault Systèmes", featured: true },
   { abbr: "CEA", name: "Certified Energy Auditor", issuer: "Center for Energy Studies" },
 ];
