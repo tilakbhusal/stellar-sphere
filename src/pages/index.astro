@@ -146,26 +146,4 @@ const featured = certifications.filter((c) => c.featured);
       }
     </div>
   </section>
-
-  <!-- Wayfinding -->
-  <section class="mx-auto mt-20 max-w-6xl px-5 sm:px-8 sm:mt-28">
-    <ul class="grid gap-3 sm:grid-cols-3">
-      {
-        [
-          { href: "/experience", title: "Experience", copy: "Roles, research, and credentials." },
-          { href: "/publications", title: "Publications", copy: "Peer-reviewed papers and talks." },
-        ].map((c) => (
-          <li>
-            <a
-              href={c.href}
-              class="panel block h-full px-5 py-5 transition-colors hover:border-emerald-deep"
-            >
-              <p class="text-h3 font-semibold">{c.title}</p>
-              <p class="mt-1.5 text-sm text-forest-soft">{c.copy}</p>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
 </Base>
